@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -7,10 +8,9 @@ import 'package:getx_practice/controller/imageScreenController.dart';
 import 'package:getx_practice/screens/createpostScreen.dart';
 import 'package:getx_practice/screens/user_personal_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-import '../Models/user_model.dart';
 import '../models/post_models.dart';
 import '../models/user_profile_model.dart';
+import '../notificationservice/local_notification_service.dart';
 import 'chat/rooms.dart';
 import 'chat_user_card.dart';
 import 'allGetPostScreen.dart';
@@ -30,19 +30,23 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
+
   CollectionReference uerRefrence =
       FirebaseFirestore.instance.collection("users");
+
   User? user = FirebaseAuth.instance.currentUser;
+
   CollectionReference postRefrence =
-  FirebaseFirestore.instance.collection("post");
+      FirebaseFirestore.instance.collection("post");
+
+
 
   @override
   Widget build(BuildContext context) {
-    final auth = FirebaseAuth.instance;
+    // final auth = FirebaseAuth.instance;
     return FutureBuilder<DocumentSnapshot>(
         future: uerRefrence.doc(user!.uid).get(),
-        builder:
-            (BuildContext context, AsyncSnapshot snapshot) {
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return const Text("Something went wrong");
           }
@@ -52,10 +56,11 @@ class _PostScreenState extends State<PostScreen> {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             ///------------With Model--------------------------///
-          //  Map<String, dynamic> data =
-         //       snapshot.data!.data() as Map<String, dynamic>;
-           // UsersModel detail = UsersModel.fromJson(data, snapshot.data!.id);
-            UserProfileModel detail = UserProfileModel.fromDocumentSnapshot(snapshot: snapshot.data!);
+            //  Map<String, dynamic> data =
+            //       snapshot.data!.data() as Map<String, dynamic>;
+            // UsersModel detail = UsersModel.fromJson(data, snapshot.data!.id);
+            UserProfileModel detail =
+                UserProfileModel.fromDocumentSnapshot(snapshot: snapshot.data!);
             return GetBuilder<ImagePickerController>(
                 init: ImagePickerController(),
                 builder: (_) {
@@ -76,7 +81,7 @@ class _PostScreenState extends State<PostScreen> {
                                       MdiIcons.home,
                                     )),
                                     Tab(icon: Icon(MdiIcons.post)),
-                                    Tab(icon: Icon(MdiIcons.video)),
+                                    Tab(icon: Icon(MdiIcons.chat)),
                                   ],
                                 ),
                                 Padding(
@@ -155,8 +160,10 @@ class _PostScreenState extends State<PostScreen> {
                           backgroundColor: const Color(0xff345a98),
                           actions: [
                             IconButton(
-                                onPressed: () {},
-                                icon: const Icon(MdiIcons.searchWeb)),
+                                onPressed: () {
+                                  FirebaseAuth.instance.signOut();
+                                },
+                                icon: const Icon(MdiIcons.logout)),
                           ],
                         ),
                         drawer: Drawer(
@@ -243,12 +250,12 @@ class _PostScreenState extends State<PostScreen> {
                             ],
                           ),
                         ),
-                        body:  TabBarView(
+                        body: const TabBarView(
                           children: [
                             AllPostScreen(),
                             UserPersonalScreen(),
-                          //  ChatUserCardScreen(userdetail: detail,),
-                               RoomsPage(),
+                            //  ChatUserCardScreen(userdetail: detail,),
+                            RoomsPage(),
                             // const Icon(Icons.directions_bike),
                           ],
                         ),

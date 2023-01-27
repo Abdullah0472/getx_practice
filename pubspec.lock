@@ -253,6 +253,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.4"
+  dbus:
+    dependency: transitive
+    description:
+      name: dbus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.8"
   diffutil_dart:
     dependency: transitive
     description:
@@ -351,6 +358,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.3+26"
+  firebase_messaging:
+    dependency: "direct main"
+    description:
+      name: firebase_messaging
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "14.2.1"
+  firebase_messaging_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_messaging_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.2.10"
+  firebase_messaging_web:
+    dependency: transitive
+    description:
+      name: firebase_messaging_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.11"
   firebase_storage:
     dependency: "direct main"
     description:
@@ -447,6 +475,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  flutter_local_notifications:
+    dependency: "direct main"
+    description:
+      name: flutter_local_notifications
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "13.0.0"
+  flutter_local_notifications_linux:
+    dependency: transitive
+    description:
+      name: flutter_local_notifications_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
+  flutter_local_notifications_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_local_notifications_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.0"
   flutter_parsed_text:
     dependency: transitive
     description:
@@ -814,6 +863,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.0"
   photo_view:
     dependency: transitive
     description:
@@ -973,6 +1029,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.12"
+  timezone:
+    dependency: transitive
+    description:
+      name: timezone
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.1"
   timing:
     dependency: transitive
     description:
@@ -1092,6 +1155,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0+3"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.1.0"
   yaml:
     dependency: transitive
     description:

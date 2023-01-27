@@ -5,16 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
-
-import '../Models/user_model.dart';
 import '../controller/chatScreenController.dart';
 import '../models/message_model.dart';
+import '../models/user_profile_model.dart';
 import 'chat/rooms.dart';
 import 'chat_pasge_screen.dart';
 import 'chating_screen_pckg.dart';
 
 class ChatUserCardScreen extends StatefulWidget {
-  final UsersModel userdetail;
+  final UserProfileModel userdetail;
   ChatUserCardScreen({
     Key? key,
     required this.userdetail,
@@ -69,8 +68,8 @@ class _ChatUserCardScreenState extends State<ChatUserCardScreen> {
                                 snapshot.data!.docs[index].data()
                                     as Map<String, dynamic>;
                             String docId = snapshot.data!.docs[index].id;
-                            UsersModel userdetail =
-                                UsersModel.fromJson(doc, docId);
+                            UserProfileModel userdetail =
+                            UserProfileModel.fromJson(doc, docId);
                             return Card(
                               color: Colors.lightBlueAccent.shade100,
                               margin: const EdgeInsets.symmetric(
@@ -98,7 +97,7 @@ class _ChatUserCardScreenState extends State<ChatUserCardScreen> {
                                               fit: BoxFit.fill,
                                             )),
                                   title: Text(
-                                    userdetail.name,
+                                    userdetail.firstName,
                                     style: const TextStyle(
                                         color: Colors.black87,
                                         fontSize: 18,

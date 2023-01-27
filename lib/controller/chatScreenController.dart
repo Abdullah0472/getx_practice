@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_practice/models/message_model.dart';
-import 'package:getx_practice/models/user_model.dart';
+
+import '../models/user_profile_model.dart';
 
 TextEditingController chatController = TextEditingController();
 User? user = FirebaseAuth.instance.currentUser;
@@ -37,7 +38,7 @@ class ChatScreenController extends GetxController {
 
   /// for getting all messages of a specific conversation from firestore database
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages(
-      UsersModel user) {
+      UserProfileModel user) {
     return FirebaseFirestore.instance
         .collection('chats/${getConversationID(user.id)}/messages/')
         .orderBy('sent', descending: true)
@@ -46,7 +47,7 @@ class ChatScreenController extends GetxController {
 
   /// for sending message
 
-  static Future<void> sendMessage(UsersModel userdetail, String msg) async {
+  static Future<void> sendMessage(UserProfileModel userdetail, String msg) async {
     final time = DateTime.now().microsecondsSinceEpoch.toString();
 
     // message to send

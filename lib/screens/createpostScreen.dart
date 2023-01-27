@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_practice/Models/user_model.dart';
 import 'package:getx_practice/screens/post_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../controller/imageScreenController.dart';

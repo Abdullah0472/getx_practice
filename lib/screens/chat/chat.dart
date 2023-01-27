@@ -7,11 +7,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/get_core.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 // import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'agora_screens.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -32,7 +36,24 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           systemOverlayStyle: SystemUiOverlayStyle.light,
-          title: const Text('Chat'),
+          title: Text(widget.room.name.toString()),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+
+              },
+              icon: Icon(Icons.phone,color: Colors.white,),
+            ),
+            IconButton(
+              onPressed: () {
+
+                Get.to(
+                  AgoraScreens(room: widget.room,),
+                );
+              },
+              icon: Icon(Icons.video_call,color: Colors.white,),
+            ),
+          ],
         ),
         body: StreamBuilder<types.Room>(
           initialData: widget.room,

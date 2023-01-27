@@ -4,15 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
-
-import '../Models/user_model.dart';
+import 'package:getx_practice/models/user_profile_model.dart';
 import '../controller/commentScreenController.dart';
 import '../models/comment_model.dart';
 import '../models/post_models.dart';
 
 class CommentsBoxScreen extends StatefulWidget {
   final postModel postdetail;
-  final UsersModel userdetail;
+  final UserProfileModel userdetail;
   CommentsBoxScreen({
     Key? key,
     required this.postdetail,
@@ -84,7 +83,7 @@ class _CommentsBoxScreenState extends State<CommentsBoxScreen> {
                           _.addCommentToFirestore(
                               commenttext: _.commenttextcontroller.text,
                               profileImageUrl: widget.userdetail.profileImageUrl,
-                              username: widget.userdetail.name,
+                              username: widget.userdetail.firstName,
                               postid: widget.postdetail.id,
                               datetimepost: widget.postdetail.datetimepost);
 
@@ -130,7 +129,7 @@ class _CommentsBoxScreenState extends State<CommentsBoxScreen> {
                                   ),
                                 ),
                                 title: Text(
-                                  widget.userdetail.name,
+                                  widget.userdetail.firstName,
                                   style: const TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 subtitle: Text(commentsdetail.commenttext),

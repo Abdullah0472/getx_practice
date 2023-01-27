@@ -5,9 +5,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:getx_practice/models/post_models.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-import '../Models/user_model.dart';
 import '../controller/postScreenController.dart';
+import '../models/user_profile_model.dart';
 import 'commentScreen2.dart';
 
 class AllPostScreen extends StatefulWidget {
@@ -20,8 +19,10 @@ class AllPostScreen extends StatefulWidget {
 class _AllPostScreenState extends State<AllPostScreen> {
   CollectionReference uerRefrence =
       FirebaseFirestore.instance.collection("users");
+
   CollectionReference postRefrence =
       FirebaseFirestore.instance.collection("post");
+
   User? user = FirebaseAuth.instance.currentUser;
 
   @override
@@ -29,10 +30,10 @@ class _AllPostScreenState extends State<AllPostScreen> {
     return GetBuilder<CreatePostController>(
         init: CreatePostController(),
         builder: (_) {
-          return FutureBuilder<DocumentSnapshot>(
+          return FutureBuilder(
               future: uerRefrence.doc(user!.uid).get(),
               builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  AsyncSnapshot snapshot) {
                 if (snapshot.hasError) {
                   return const Text("Something went wrong");
                 }
@@ -42,10 +43,7 @@ class _AllPostScreenState extends State<AllPostScreen> {
                 }
                 if (snapshot.connectionState == ConnectionState.done) {
                   ///------------With Model--------------------------///
-                  Map<String, dynamic> data =
-                      snapshot.data!.data() as Map<String, dynamic>;
-                  UsersModel userdetail =
-                      UsersModel.fromJson(data, snapshot.data!.id);
+                  UserProfileModel userdetail = UserProfileModel.fromDocumentSnapshot(snapshot: snapshot.data);
                   return Scaffold(
                       body: SingleChildScrollView(
                     child: Column(

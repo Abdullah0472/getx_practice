@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:getx_practice/Models/user_model.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,7 +21,8 @@ class ImagePickerController extends GetxController {
   User? user = FirebaseAuth.instance.currentUser;
   CollectionReference imageReference =
       FirebaseFirestore.instance.collection("images");
-  CollectionReference userReference = FirebaseFirestore.instance.collection("users");
+  CollectionReference userReference =
+      FirebaseFirestore.instance.collection("users");
   String imageUrl = "";
   String CoverUrl = "";
   firebase_storage.FirebaseStorage storage =
@@ -75,6 +77,7 @@ class ImagePickerController extends GetxController {
     // get reference to storage root
     firebase_storage.Reference referenceRoot =
         firebase_storage.FirebaseStorage.instance.ref();
+
     firebase_storage.Reference referenceDirectory =
         referenceRoot.child("images");
 
@@ -95,9 +98,14 @@ class ImagePickerController extends GetxController {
         }
         print("uid:$uid");
         try {
-
+          await FirebaseChatCore.instance.updateUserImageUrlInFirestore(
+            types.User(
+              id: uid,
+             imageUrl: imageUrl
+            )
+          );
           DocumentReference currentUserReference = userReference.doc(uid);
-          await currentUserReference.update({"profileImageUrl":imageUrl});
+          await currentUserReference.update({"profileImageUrl": imageUrl});
           return true;
         } on Exception catch (e) {
           return false;
@@ -118,7 +126,7 @@ class ImagePickerController extends GetxController {
     }
   }
 
-/// Get Image from Firebase
+  /// Get Image from Firebase
   // FutureBuilder<DocumentSnapshot> getImagefromFirebase() async {
   //   future: userReference.doc(user!.uid).get();
   //   await imageReference
@@ -182,19 +190,18 @@ class ImagePickerController extends GetxController {
     super.onInit();
   }
 
-
   uploadCoverToFirebase(BuildContext context) async {
     /// UPLOAD IMAGE TO FIREBASE
 
     // get reference to storage root
     firebase_storage.Reference referenceRoot =
-    firebase_storage.FirebaseStorage.instance.ref();
+        firebase_storage.FirebaseStorage.instance.ref();
     firebase_storage.Reference referenceDirectory =
-    referenceRoot.child("cover");
+        referenceRoot.child("cover");
 
     // create reference for image to be stores
     firebase_storage.Reference referenceImageToUpload =
-    referenceDirectory.child(UniqueCoverName);
+        referenceDirectory.child(UniqueCoverName);
 
     try {
       // store the file
@@ -209,9 +216,8 @@ class ImagePickerController extends GetxController {
         }
         print("uid:$uid");
         try {
-
           DocumentReference currentUserReference = userReference.doc(uid);
-          await currentUserReference.update({"coverImageUrl":CoverUrl});
+          await currentUserReference.update({"coverImageUrl": CoverUrl});
           return true;
         } on Exception catch (e) {
           return false;

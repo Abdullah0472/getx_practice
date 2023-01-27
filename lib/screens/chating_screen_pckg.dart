@@ -7,16 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:getx_practice/controller/chatScreenController.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:mime/mime.dart';
+
 
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../Models/user_model.dart';
+import '../models/user_profile_model.dart';
+
 
 // void main() {
 //   initializeDateFormatting().then((_) => runApp(const MyApp()));
@@ -32,7 +32,7 @@ import '../Models/user_model.dart';
 // }
 
 class ChatPage extends StatefulWidget {
-  final UsersModel userdetail;
+  final UserProfileModel userdetail;
   const ChatPage({super.key, required this.userdetail});
 
   @override
@@ -52,8 +52,8 @@ class _ChatPageState extends State<ChatPage> {
 
   loadCurrentUser() {
     _user = types.User(
-      id: widget.userdetail.uid,
-      firstName: widget.userdetail.name,
+      id: widget.userdetail.metadata.uid,
+      firstName: widget.userdetail.firstName,
       imageUrl: widget.userdetail.profileImageUrl,
     );
   }

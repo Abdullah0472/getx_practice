@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../Models/user_model.dart';
 import '../controller/imageScreenController.dart';
 import '../models/post_models.dart';
+import '../models/user_profile_model.dart';
 import 'commentScreen2.dart';
 
 class UserPersonalScreen extends StatefulWidget {
@@ -25,10 +25,10 @@ class _UserPersonalScreenState extends State<UserPersonalScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<DocumentSnapshot>(
+    return FutureBuilder(
         future: uerRefrence.doc(user!.uid).get(),
         builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return const Text("Something went wrong");
           }
@@ -38,9 +38,9 @@ class _UserPersonalScreenState extends State<UserPersonalScreen> {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             ///------------With Model--------------------------///
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
-            UsersModel detail = UsersModel.fromJson(data, snapshot.data!.id);
+            // Map<String, dynamic> data =
+            //     snapshot.data!.data() as Map<String, dynamic>;
+            UserProfileModel detail = UserProfileModel.fromDocumentSnapshot(snapshot: snapshot.data);
             return GetBuilder<ImagePickerController>(
               init: ImagePickerController(),
               initState: (_) {},
@@ -97,14 +97,14 @@ class _UserPersonalScreenState extends State<UserPersonalScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              detail.name,
+                              detail.metadata.name,
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              detail.email,
+                              detail.metadata.email,
                               style: const TextStyle(
                                   color: Colors.blueGrey,
                                   fontWeight: FontWeight.w500),
@@ -163,7 +163,7 @@ class _UserPersonalScreenState extends State<UserPersonalScreen> {
                                       postModel.fromJson(doc, docId);
                                   return Card(
                                     child: Container(
-                                      height: 350,
+                                      height: 280,
                                       child: Column(
                                         children: [
                                           ListTile(

@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_practice/screens/post_screen.dart';
@@ -5,13 +6,21 @@ import 'package:getx_practice/screens/user_screen.dart';
 import 'package:getx_practice/screens/home_screens.dart';
 import 'package:getx_practice/screens/signup_screens.dart';
 import '../controller/loginScreenController.dart';
+import '../notificationservice/local_notification_service.dart';
 import '../utils/utils.dart';
 import '../widgets/reuseable_widgets.dart';
 import 'package:password_field_validator/password_field_validator.dart';
 
-class LoginScree extends StatelessWidget {
+class LoginScree extends StatefulWidget {
   LoginScree({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScree> createState() => _LoginScreeState();
+}
+
+class _LoginScreeState extends State<LoginScree> {
   // GlobalKey<FormState> formkey = GlobalKey();
+
 
   @override
   Widget build(BuildContext context) {

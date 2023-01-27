@@ -15,8 +15,10 @@ class CreatePostController extends GetxController {
   TextEditingController posttextcontroller = TextEditingController();
   static CollectionReference postReference =
       FirebaseFirestore.instance.collection("post");
+
   CollectionReference imagepostReference =
       FirebaseFirestore.instance.collection("postImages");
+
   User? currentuser = FirebaseAuth.instance.currentUser;
 
   File? postImageFile;
@@ -78,7 +80,8 @@ class CreatePostController extends GetxController {
     String UniqueName = DateTime.now().microsecondsSinceEpoch.toString();
 
     /// UPLOAD IMAGE TO FIREBASE
-    firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
+    firebase_storage.FirebaseStorage storage =
+        firebase_storage.FirebaseStorage.instance;
 
     firebase_storage.Reference ref =
         storage
@@ -130,22 +133,22 @@ class CreatePostController extends GetxController {
     }
   }
 
-  Future<void> likespost(String postid,String uid,List likes)async{
-    try{
-      if(likes.contains(uid)){
+  Future<void> likespost(String postid, String uid, List likes) async {
+    try {
+      if (likes.contains(uid)) {
         await postReference.doc(postid).update({
           // if the likes list contains the user uid, we need to remove it
-          'likes':FieldValue.arrayRemove([uid]),"likecount": FieldValue.increment(-1),
-
+          'likes': FieldValue.arrayRemove([uid]),
+          "likecount": FieldValue.increment(-1),
         });
-      }else{
+      } else {
         await postReference.doc(postid).update({
           // else we need to add uid to the likes array
-          'likes':FieldValue.arrayUnion([uid]),"likecount": FieldValue.increment(1),
+          'likes': FieldValue.arrayUnion([uid]),
+          "likecount": FieldValue.increment(1),
         });
       }
-
-    }catch(e){
+    } catch (e) {
       print(e.toString());
     }
   }

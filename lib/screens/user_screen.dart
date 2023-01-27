@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_practice/screens/home_screens.dart';
 import 'package:getx_practice/screens/createpostScreen.dart';
-import '../Models/user_model.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../controller/imageScreenController.dart';
 import '../models/user_profile_model.dart';

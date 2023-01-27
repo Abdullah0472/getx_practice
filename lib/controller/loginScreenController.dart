@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:get/get.dart';
@@ -80,7 +81,7 @@ class LoginScreenContrroler extends GetxController {
   onLoginPressed() {
     Get.snackbar("Login Status", "Successfully Logged in",
         backgroundColor: Colors.pink, colorText: Colors.white);
-    Get.defaultDialog(title: "Status", content: Text("Successfully Logged in"));
+    Get.defaultDialog(title: "Status", content: const Text("Successfully Logged in"));
   }
 
   String titleLogin = "Login";
@@ -90,7 +91,6 @@ class LoginScreenContrroler extends GetxController {
   //   // TODO: implement onInit
   //   super.onInit();
   // }
-
 
   /// fireBase wala Kaam
 
@@ -119,11 +119,11 @@ class LoginScreenContrroler extends GetxController {
 
   _initalScreeen(User? user) {
     if (user != null) {
-      Get.offAll(() => PostScreen());
+      Get.offAll(() => const PostScreen());
     } else {
-     Get.offAll(() => LoginScree());
-     //Ye apna wala kaam ha
-     // Get.offAll(() => LoginPage() );
+      Get.offAll(() => LoginScree());
+      //Ye apna wala kaam ha
+      // Get.offAll(() => LoginPage() );
 
     }
   }
@@ -145,25 +145,27 @@ class LoginScreenContrroler extends GetxController {
         Map<String, dynamic> userProfileData = {
           "name": userName,
           "email": email,
-           "uid" : currentUser.uid,
-
+          "uid": currentUser.uid,
         };
-        await FirebaseChatCore.instance.createUserInFirestore(
-          types.User(
-            id: credential.user!.uid,
-            firstName: userName,
-            metadata: userProfileData,
-          )
-        );
-      //   DocumentReference currentUserReference =
-      //       userReference.doc(currentUser.uid);
-      //   Map<String, dynamic> userProfileScreen = {
-      //     "name": userName,
-      //     "email": email,
-      //     "uid": currentUser.uid,
-      //
-      //   };
-      //   await currentUserReference.set(userProfileScreen);
+        await FirebaseChatCore.instance.createUserInFirestore(types.User(
+          id: credential.user!.uid,
+          firstName: userName,
+          metadata: userProfileData,
+        ));
+
+        String? token=await FirebaseMessaging.instance.getToken();
+        DocumentReference urf=FirebaseFirestore.instance.collection("users").doc(currentUser.uid);
+        urf.update({"firebasetoken":token});
+
+        //   DocumentReference currentUserReference =
+        //       userReference.doc(currentUser.uid);
+        //   Map<String, dynamic> userProfileScreen = {
+        //     "name": userName,
+        //     "email": email,
+        //     "uid": currentUser.uid,
+        //
+        //   };
+        //   await currentUserReference.set(userProfileScreen);
       }
       status = true;
     } on FirebaseAuthException catch (e) {
@@ -178,13 +180,13 @@ class LoginScreenContrroler extends GetxController {
         "User Massage",
         backgroundColor: Colors.amber,
         snackPosition: SnackPosition.BOTTOM,
-        titleText: Text(
+        titleText: const Text(
           "Account Creation Failed",
           style: TextStyle(color: Colors.white),
         ),
         messageText: Text(
           e.toString(),
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
       );
     }
@@ -195,6 +197,7 @@ class LoginScreenContrroler extends GetxController {
     required String email,
     required String password,
   }) async {
+
     bool status = false;
     try {
       final credential = await auth.signInWithEmailAndPassword(
@@ -202,6 +205,10 @@ class LoginScreenContrroler extends GetxController {
         password: password,
       );
       User? currentUser = credential.user;
+
+      String? token=await FirebaseMessaging.instance.getToken();
+      DocumentReference urf=FirebaseFirestore.instance.collection("users").doc(currentUser!.uid);
+      urf.update({"firebasetoken":token});
 
       status = true;
     } on FirebaseAuthException catch (e) {
@@ -216,13 +223,13 @@ class LoginScreenContrroler extends GetxController {
         "User Massage",
         backgroundColor: Colors.amber,
         snackPosition: SnackPosition.BOTTOM,
-        titleText: Text(
+        titleText: const Text(
           "Account Creation Failed",
           style: TextStyle(color: Colors.white),
         ),
         messageText: Text(
           e.toString(),
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
       );
     }
